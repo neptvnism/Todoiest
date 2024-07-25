@@ -1,227 +1,251 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
-    <style>
-        body {
-            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode {
-            background-color: #2c2c2c;
-            color: white;
-        }
-        .container {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-            text-align: center;
-            position: relative;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode .container {
-            background-color: #444;
-            color: white;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background-color: #e0e0e0;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: left;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode li {
-            background-color: #666;
-            color: white;
-        }
-        li.completed {
-            text-decoration: line-through;
-            background-color: #c0c0c0;
-        }
-        .dark-mode li.completed {
-            background-color: #888;
-        }
-        input, button {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 15px;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode input, .dark-mode button {
-            background-color: #666;
-            color: white;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-        .dark-mode button {
-            background-color: #0056b3;
-        }
-        .settings-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 24px;
-        }
-        .settings-menu {
-            display: none;
-            position: absolute;
-            top: 40px;
-            right: 10px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            z-index: 1000;
-        }
-        .dark-mode .settings-menu {
-            background-color: #444;
-            color: white;
-        }
-        .settings-menu select, .settings-menu button {
-            width: 100%;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>To-Do List</h1>
-        <span class="settings-icon">⚙️</span>
-        <div class="settings-menu">
-            <button id="toggleDarkMode">TOGGLE DARK MODE</button>
-            <label for="fontSize">Font Size:</label>
-            <select id="fontSize">
-                <option value="16px">Small</option>
-                <option value="18px">Medium</option>
-                <option value="20px">Large</option>
-            </select>
-            <label for="fontType">Font Type:</label>
-            <select id="fontType">
-                <option value="Arial Rounded MT Bold">Arial Rounded</option>
-                <option value="Arial">Arial</option>
-                <option value="Times New Roman">Times New Roman</option>
-            </select>
-        </div>
-        <ul id="toDoList"></ul>
-        <input type="text" id="taskInput" placeholder="New task">
-        <button id="addTaskButton">ADD TASK</button>
-    </div>
-    <script>
-        document.getElementById('addTaskButton').addEventListener('click', function() {
-            const taskInput = document.getElementById('taskInput');
-            const task = taskInput.value.trim();
-            if (task) {
-                addTask(task);
-                saveTasks();
-                taskInput.value = '';
-            }
-        });
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>To-Do List</title>
+                <style>
+                    body {
+                        font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+                        background-color: #f0f0f0;
+                        margin: 0;
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        transition: background-color 0.3s, color 0.3s;
+                    }
+                    .dark-mode {
+                        background-color: #2c2c2c;
+                        color: white;
+                    }
+                    .container {
+                        background-color: white;
+                        border-radius: 15px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        padding: 20px;
+                        width: 300px;
+                        text-align: center;
+                        position: relative;
+                        transition: background-color 0.3s, color 0.3s;
+                    }
+                    .dark-mode .container {
+                        background-color: #444;
+                        color: white;
+                    }
+                    h1 {
+                        font-size: 24px;
+                    }
+                    ul {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    li {
+                        background-color: #e0e0e0;
+                        margin: 5px 0;
+                        padding: 10px;
+                        border-radius: 10px;
+                        text-align: left;
+                        cursor: pointer;
+                        position: relative;
+                        transition: background-color 0.3s, color 0.3s;
+                    }
+                    .dark-mode li {
+                        background-color: #666;
+                        color: white;
+                    }
+                    li.completed {
+                        text-decoration: line-through;
+                        background-color: #c0c0c0;
+                    }
+                    .dark-mode li.completed {
+                        background-color: #888;
+                    }
+                    input, button {
+                        margin-top: 10px;
+                        padding: 10px;
+                        border-radius: 15px;
+                        border: none;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        font-size: 16px;
+                        transition: background-color 0.3s, color 0.3s;
+                    }
+                    .dark-mode input, .dark-mode button {
+                        background-color: #666;
+                        color: white;
+                    }
+                    button {
+                        background-color: #007bff;
+                        color: white;
+                        cursor: pointer;
+                    }
+                    .dark-mode button {
+                        background-color: #0056b3;
+                    }
+                    .settings-icon {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        cursor: pointer;
+                        font-size: 24px;
+                    }
+                    .settings-menu {
+                        display: none;
+                        position: absolute;
+                        top: 40px;
+                        right: 10px;
+                        background-color: #fff;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        padding: 10px;
+                        z-index: 1000;
+                    }
+                    .dark-mode .settings-menu {
+                        background-color: #444;
+                        color: white;
+                    }
+                    .settings-menu select, .settings-menu button {
+                        width: 100%;
+                        margin-top: 10px;
+                    }
+                    .delete-button {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        transform: translateY(-50%);
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        font-size: 16px;
+                        color: red;
+                        display: none;
+                    }
+                    li:hover .delete-button {
+                        display: inline;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>To-Do List</h1>
+                    <span class="settings-icon">⚙️</span>
+                    <div class="settings-menu">
+                        <button id="toggleDarkMode">TOGGLE DARK MODE</button>
+                        <label for="fontSize">Font Size:</label>
+                        <select id="fontSize">
+                            <option value="16px">Small</option>
+                            <option value="18px">Medium</option>
+                            <option value="20px">Large</option>
+                        </select>
+                        <label for="fontType">Font Type:</label>
+                        <select id="fontType">
+                            <option value="Arial Rounded MT Bold">Arial Rounded</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                        </select>
+                    </div>
+                    <ul id="toDoList"></ul>
+                    <input type="text" id="taskInput" placeholder="New task">
+                    <button id="addTaskButton">ADD TASK</button>
+                </div>
+                <script>
+                    document.getElementById('addTaskButton').addEventListener('click', function() {
+                        const taskInput = document.getElementById('taskInput');
+                        const task = taskInput.value.trim();
+                        if (task) {
+                            addTask(task);
+                            saveTasks();
+                            taskInput.value = '';
+                        }
+                    });
 
-        document.getElementById('toggleDarkMode').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
+                    document.getElementById('toggleDarkMode').addEventListener('click', function() {
+                        document.body.classList.toggle('dark-mode');
+                        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+                    });
 
-        document.querySelector('.settings-icon').addEventListener('click', function() {
-            document.querySelector('.settings-menu').style.display =
-                document.querySelector('.settings-menu').style.display === 'block' ? 'none' : 'block';
-        });
+                    document.querySelector('.settings-icon').addEventListener('click', function() {
+                        document.querySelector('.settings-menu').style.display =
+                            document.querySelector('.settings-menu').style.display === 'block' ? 'none' : 'block';
+                    });
 
-        document.getElementById('fontSize').addEventListener('change', function() {
-            document.body.style.fontSize = this.value;
-            localStorage.setItem('fontSize', this.value);
-        });
+                    document.getElementById('fontSize').addEventListener('change', function() {
+                        document.body.style.fontSize = this.value;
+                        localStorage.setItem('fontSize', this.value);
+                    });
 
-        document.getElementById('fontType').addEventListener('change', function() {
-            document.body.style.fontFamily = this.value;
-            localStorage.setItem('fontType', this.value);
-        });
+                    document.getElementById('fontType').addEventListener('change', function() {
+                        document.body.style.fontFamily = this.value;
+                        localStorage.setItem('fontType', this.value);
+                    });
 
-        function addTask(task, completed = false) {
-            const listItem = document.createElement('li');
-            listItem.textContent = task;
-            if (completed) {
-                listItem.classList.add('completed');
-            }
-            listItem.addEventListener('click', function() {
-                listItem.classList.toggle('completed');
-                saveTasks();
-            });
-            listItem.addEventListener('dblclick', function() {
-                const newTask = prompt('Edit task:', listItem.textContent);
-                if (newTask) {
-                    listItem.textContent = newTask;
-                    saveTasks();
-                }
-            });
-            document.getElementById('toDoList').appendChild(listItem);
-        }
+                    function addTask(task, completed = false) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = task;
+                        if (completed) {
+                            listItem.classList.add('completed');
+                        }
+                        listItem.addEventListener('click', function() {
+                            listItem.classList.toggle('completed');
+                            saveTasks();
+                        });
+                        listItem.addEventListener('dblclick', function() {
+                            const newTask = prompt('Edit task:', listItem.textContent);
+                            if (newTask) {
+                                listItem.textContent = newTask;
+                                saveTasks();
+                            }
+                        });
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = '❌';
+                        deleteButton.className = 'delete-button';
+                        deleteButton.addEventListener('click', function() {
+                            listItem.remove();
+                            saveTasks();
+                        });
+                        listItem.appendChild(deleteButton);
+                        document.getElementById('toDoList').appendChild(listItem);
+                    }
 
-        function saveTasks() {
-            const tasks = [];
-            document.querySelectorAll('#toDoList li').forEach(listItem => {
-                tasks.push({ task: listItem.textContent, completed: listItem.classList.contains('completed') });
-            });
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
+                    function saveTasks() {
+                        const tasks = [];
+                        document.querySelectorAll('#toDoList li').forEach(listItem => {
+                            tasks.push({ task: listItem.textContent, completed: listItem.classList.contains('completed') });
+                        });
+                        localStorage.setItem('tasks', JSON.stringify(tasks));
+                    }
 
-        function loadTasks() {
-            const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-            tasks.forEach(task => addTask(task.task, task.completed));
-        }
+                    function loadTasks() {
+                        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                        tasks.forEach(task => addTask(task.task, task.completed));
+                    }
 
-        function loadDarkMode() {
-            const darkMode = JSON.parse(localStorage.getItem('darkMode'));
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-            }
-        }
+                    function loadDarkMode() {
+                        const darkMode = JSON.parse(localStorage.getItem('darkMode'));
+                        if (darkMode) {
+                            document.body.classList.add('dark-mode');
+                        }
+                    }
 
-        function loadFontSize() {
-            const fontSize = localStorage.getItem('fontSize') || '16px';
-            document.body.style.fontSize = fontSize;
-            document.getElementById('fontSize').value = fontSize;
-        }
+                    function loadFontSize() {
+                        const fontSize = localStorage.getItem('fontSize') || '16px';
+                        document.body.style.fontSize = fontSize;
+                        document.getElementById('fontSize').value = fontSize;
+                    }
 
-        function loadFontType() {
-            const fontType = localStorage.getItem('fontType') || 'Arial Rounded MT Bold';
-            document.body.style.fontFamily = fontType;
-            document.getElementById('fontType').value = fontType;
-        }
+                    function loadFontType() {
+                        const fontType = localStorage.getItem('fontType') || 'Arial Rounded MT Bold';
+                        document.body.style.fontFamily = fontType;
+                        document.getElementById('fontType').value = fontType;
+                    }
 
-        window.onload = function() {
-            loadTasks();
-            loadDarkMode();
-            loadFontSize();
-            loadFontType();
-        };
-    </script>
-</body>
-</html>
+                    window.onload = function() {
+                        loadTasks();
+                        loadDarkMode();
+                        loadFontSize();
+                        loadFontType();
+                    };
+                </script>
+            </body>
+            </html>
