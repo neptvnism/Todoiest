@@ -36,6 +36,11 @@
             padding: 10px;
             border-radius: 10px;
             text-align: left;
+            cursor: pointer;
+        }
+        li.completed {
+            text-decoration: line-through;
+            background-color: #c0c0c0;
         }
         input, button {
             margin-top: 10px;
@@ -66,6 +71,15 @@
             if (task) {
                 const listItem = document.createElement('li');
                 listItem.textContent = task;
+                listItem.addEventListener('click', function() {
+                    listItem.classList.toggle('completed');
+                });
+                listItem.addEventListener('dblclick', function() {
+                    const newTask = prompt('Edit task:', listItem.textContent);
+                    if (newTask) {
+                        listItem.textContent = newTask;
+                    }
+                });
                 document.getElementById('toDoList').appendChild(listItem);
                 taskInput.value = '';
             }
