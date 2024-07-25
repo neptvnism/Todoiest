@@ -27,6 +27,7 @@
             padding: 20px;
             width: 300px;
             text-align: center;
+            position: relative;
             transition: background-color 0.3s, color 0.3s;
         }
         .dark-mode .container {
@@ -81,15 +82,56 @@
         .dark-mode button {
             background-color: #0056b3;
         }
+        .settings-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .settings-menu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 1000;
+        }
+        .dark-mode .settings-menu {
+            background-color: #444;
+            color: white;
+        }
+        .settings-menu select, .settings-menu button {
+            width: 100%;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>To-Do List</h1>
+        <span class="settings-icon">⚙️</span>
+        <div class="settings-menu">
+            <button id="toggleDarkMode">TOGGLE DARK MODE</button>
+            <label for="fontSize">Font Size:</label>
+            <select id="fontSize">
+                <option value="16px">Small</option>
+                <option value="18px">Medium</option>
+                <option value="20px">Large</option>
+            </select>
+            <label for="fontType">Font Type:</label>
+            <select id="fontType">
+                <option value="Arial Rounded MT Bold">Arial Rounded</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+            </select>
+        </div>
         <ul id="toDoList"></ul>
         <input type="text" id="taskInput" placeholder="New task">
         <button id="addTaskButton">ADD TASK</button>
-        <button id="toggleDarkMode">TOGGLE DARK MODE</button>
     </div>
     <script>
         document.getElementById('addTaskButton').addEventListener('click', function() {
@@ -105,6 +147,21 @@
         document.getElementById('toggleDarkMode').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        document.querySelector('.settings-icon').addEventListener('click', function() {
+            document.querySelector('.settings-menu').style.display =
+                document.querySelector('.settings-menu').style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.getElementById('fontSize').addEventListener('change', function() {
+            document.body.style.fontSize = this.value;
+            localStorage.setItem('fontSize', this.value);
+        });
+
+        document.getElementById('fontType').addEventListener('change', function() {
+            document.body.style.fontFamily = this.value;
+            localStorage.setItem('fontType', this.value);
         });
 
         function addTask(task, completed = false) {
@@ -147,9 +204,23 @@
             }
         }
 
+        function loadFontSize() {
+            const fontSize = localStorage.getItem('fontSize') || '16px';
+            document.body.style.fontSize = fontSize;
+            document.getElementById('fontSize').value = fontSize;
+        }
+
+        function loadFontType() {
+            const fontType = localStorage.getItem('fontType') || 'Arial Rounded MT Bold';
+            document.body.style.fontFamily = fontType;
+            document.getElementById('fontType').value = fontType;
+        }
+
         window.onload = function() {
             loadTasks();
             loadDarkMode();
+            loadFontSize();
+            loadFontType();
         };
     </script>
 </body>
